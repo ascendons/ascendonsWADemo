@@ -62,7 +62,7 @@ public class MetaMessageBuilder {
 
     String bodyText =
         """
-                Welcome to Divisha Arthritis and Medical Center.
+                Welcome to Ascendons Appointment.
                 Thank you for choosing us for your healthcare needs.
                 Please let us know how we can assist you today:
                 """;
@@ -74,14 +74,14 @@ public class MetaMessageBuilder {
             btn("RESCHEDULE", "WALK-IN/EMERGENCY"));
 
     return buttonMessage(
-        "Divisha Arthritis and Medical Center", bodyText, "Please select an option:", buttons);
+        "Ascendons Appointment", bodyText, "Please select an option:", buttons);
   }
 
   public MetaInteractiveButtonMessage appointmentCancelRescheduleMenu() {
 
     String bodyText =
         """
-                Welcome to Divisha Arthritis and Medical Center.
+                Welcome to Ascendons Appointment.
                 Thank you for choosing us for your healthcare needs.
                 Please let us know how we can assist you today:
                 """;
@@ -89,7 +89,7 @@ public class MetaMessageBuilder {
     List<MetaButtonOption> buttons =
         List.of(btn("BOOK_APPOINTMENT", "CANCEL"), btn("CANCEL_APPOINTMENT", "RESCHEDULE"));
     return buttonMessage(
-        "Divisha Arthritis and Medical Center", bodyText, "Please select an option:", buttons);
+        "Ascendons Appointment", bodyText, "Please select an option:", buttons);
   }
 
   public MetaInteractiveButtonMessage top3AvailableDates(List<String> availableDates) {
@@ -106,7 +106,7 @@ public class MetaMessageBuilder {
             btn("DATE_" + availableDates.get(1), availableDates.get(1)),
             btn("DATE_" + availableDates.get(2), availableDates.get(2)));
     return buttonMessage(
-        "Divisha Arthritis and Medical Center", bodyText, "Please select an option:", buttons);
+        "Ascendons Appointment", bodyText, "Please select an option:", buttons);
   }
 
   // -------------------------------------------------------------------------
@@ -145,7 +145,7 @@ public class MetaMessageBuilder {
         .forEach(loc -> buttons.add(btn("LOC_" + loc.getId(), loc.getName())));
 
     return buttonMessage(
-        "Divisha Arthritis and Medical Center",
+        "Ascendons Appointment",
         "Please select your preferred location:",
         "Please select any one option:",
         buttons);
@@ -184,7 +184,7 @@ public class MetaMessageBuilder {
                 💰 *Consultation Fee:* %s
                 🆔 *Patient ID:* %s
 
-                Thank you for choosing Divisha Arthritis & Medical Center 🙏
+                Thank you for choosing Ascendons Appointment 🙏
                 """
             .formatted(
                 dto.getPatientName(),
@@ -198,7 +198,7 @@ public class MetaMessageBuilder {
     List<MetaButtonOption> buttons = List.of(btn("CONFIRM", "CONFIRM"), btn("CANCEL", "CANCEL"));
 
     return buttonMessage(
-        "Divisha Arthritis and Medical Center", body, "Please select any one option:", buttons);
+        "Ascendons Appointment", body, "Please select any one option:", buttons);
   }
 
   // -------------------------------------------------------------------------
@@ -218,7 +218,7 @@ public class MetaMessageBuilder {
                 🆔 *Patient ID:* %s
                 🔖 *Booking ID:* %s
 
-                Thank you for choosing Divisha Arthritis & Medical Center 🙏
+                Thank you for choosing Ascendons Appointment 🙏
                 """
         .formatted(
             successText,
@@ -245,7 +245,7 @@ public class MetaMessageBuilder {
             🆔 *Patient ID:* %s
             🔖 *Request ID:* %s
 
-            Thank you for choosing *Divisha Arthritis & Medical Center* 🙏
+            Thank you for choosing *Ascendons Appointment* 🙏
             We will notify you as soon as a slot becomes available.
             """
         .formatted(

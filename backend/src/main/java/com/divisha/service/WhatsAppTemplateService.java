@@ -190,7 +190,7 @@ public class WhatsAppTemplateService {
 
         Please arrive 10 minutes early. Bring any previous medical records if available.
 
-        Thank you for choosing Divisha Arthritis & Medical Center 🙏
+        Thank you for choosing Ascendons Appointment 🙏
         """);
 
     List<String> exampleParams =

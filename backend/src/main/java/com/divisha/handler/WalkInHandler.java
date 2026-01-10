@@ -86,7 +86,7 @@ public class WalkInHandler implements ConversationHandler {
                 🆔 *Patient ID:* %s
                 🔖 *Booking ID:* %s
 
-                Thank you for choosing Divisha Arthritis & Medical Center 🙏
+                Thank you for choosing Ascendons Appointment 🙏
                 """
             .formatted(
                 context.getUserName(phone),

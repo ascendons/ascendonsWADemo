@@ -46,7 +46,7 @@ public class TemplateRule {
 /**
  * Dr Vijay KR Rao's Consulting Timings
  *
- * <p>Location Days/Availability Timings 1. Divisha Arthritis and Medical Centre, Basaveshwara Nagar
+ * <p>Location Days/Availability Timings 1. Ascendons Appointment, Basaveshwara Nagar
  * Monday to Saturday 9:00 AM to 6:00 PM 2. Agilus Diagnostics Ltd, Brookfield (Whitefield Branch)
  * Alternate Sundays 9:00 AM to 2:00 PM 3. Agilus Diagnostics Ltd, Basavanagudi Branch One Wednesday
  * per month 3:00 PM to 7:00 PM
