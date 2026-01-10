@@ -1,0 +1,87 @@
+{
+  "version": "3.0",
+  "screens": [
+    {
+      "id": "APPOINTMENT_BOOKING_SCREEN",
+      "title": "Book Appointment",
+      "terminal": true,
+      "data": {
+        "locations": {
+          "type": "array",
+          "__example__": [
+            { "id": "loc1", "title": "Main Clinic" },
+            { "id": "loc2", "title": "Branch Office" }
+          ]
+        },
+        "doctors": {
+          "type": "array",
+          "__example__": [
+            { "id": "doc1", "title": "Dr. Smith" },
+            { "id": "doc2", "title": "Dr. Jones" }
+          ]
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "appointment_form",
+            "children": [
+              {
+                "type": "TextHeading",
+                "text": "Book Your Appointment"
+              },
+              {
+                "type": "TextSubheading",
+                "text": "Select your preferred details"
+              },
+              {
+                "type": "Dropdown",
+                "name": "location",
+                "label": "Select Location",
+                "required": true,
+                "data-source": "${data.locations}"
+              },
+              {
+                "type": "Dropdown",
+                "name": "doctor",
+                "label": "Select Doctor",
+                "required": true,
+                "data-source": "${data.doctors}"
+              },
+              {
+                "type": "DatePicker",
+                "name": "date",
+                "label": "Appointment Date",
+                "required": true,
+                "helper-text": "Select your preferred date",
+                "min-date": "2025-01-01",
+                "max-date": "2025-12-31"
+              },
+              {
+                "type": "OptIn",
+                "name": "consent",
+                "label": "I confirm that the information provided is accurate",
+                "required": true
+              },
+              {
+                "type": "Footer",
+                "label": "Book Appointment",
+                "on-click-action": {
+                  "name": "complete",
+                  "payload": {
+                    "location": "${form.location}",
+                    "doctor": "${form.doctor}",
+                    "date": "${form.date}",
+                    "consent": "${form.consent}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

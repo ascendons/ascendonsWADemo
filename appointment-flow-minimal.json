@@ -1,0 +1,99 @@
+{
+  "version": "7.2",
+  "data_api_version": "3.0",
+  "routing_model": {
+    "APPOINTMENT": ["SUCCESS"]
+  },
+  "screens": [
+    {
+      "id": "APPOINTMENT",
+      "title": "Book Appointment",
+      "terminal": false,
+      "data": {},
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "form",
+            "children": [
+              {
+                "type": "TextHeading",
+                "text": "Book Your Appointment"
+              },
+              {
+                "type": "TextInput",
+                "name": "doctor_name",
+                "label": "Doctor Name",
+                "required": true,
+                "input-type": "text"
+              },
+              {
+                "type": "TextInput",
+                "name": "location",
+                "label": "Location",
+                "required": true,
+                "input-type": "text"
+              },
+              {
+                "type": "DatePicker",
+                "name": "date",
+                "label": "Appointment Date",
+                "required": true
+              },
+              {
+                "type": "TextInput",
+                "name": "time",
+                "label": "Preferred Time",
+                "required": true,
+                "input-type": "text",
+                "helper-text": "e.g., 10:00 AM"
+              },
+              {
+                "type": "Footer",
+                "label": "Book Appointment",
+                "on-click-action": {
+                  "name": "complete",
+                  "payload": {
+                    "doctor_name": "${form.doctor_name}",
+                    "location": "${form.location}",
+                    "date": "${form.date}",
+                    "time": "${form.time}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "SUCCESS",
+      "title": "Booking Confirmed",
+      "terminal": true,
+      "success": true,
+      "data": {},
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "✅ Appointment Booked!"
+          },
+          {
+            "type": "TextBody",
+            "text": "Your appointment has been confirmed."
+          },
+          {
+            "type": "Footer",
+            "label": "Done",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {}
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,282 @@
+{
+  "info": {
+    "name": "WhatsApp Flow Appointment Booking API",
+    "description": "Collection for testing WhatsApp Flow Appointment Booking endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "ngrokUrl",
+      "value": "https://your-ngrok-url.ngrok.io",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Checks",
+      "item": [
+        {
+          "name": "Data Exchange Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meta/flow/data-exchange/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["meta", "flow", "data-exchange", "health"]
+            },
+            "description": "Check if the data exchange service is healthy"
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/meta/flow/data-exchange/health",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meta", "flow", "data-exchange", "health"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"status\": \"healthy\",\n  \"service\": \"flow-data-exchange\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Application Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actuator/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["actuator", "health"]
+            },
+            "description": "Check overall application health"
+          }
+        }
+      ]
+    },
+    {
+      "name": "WhatsApp Webhook",
+      "item": [
+        {
+          "name": "Webhook Verification (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meta/flow/webhook?hub.mode=subscribe&hub.challenge=test_challenge&hub.verify_token=YOUR_VERIFY_TOKEN",
+              "host": ["{{baseUrl}}"],
+              "path": ["meta", "flow", "webhook"],
+              "query": [
+                {
+                  "key": "hub.mode",
+                  "value": "subscribe"
+                },
+                {
+                  "key": "hub.challenge",
+                  "value": "test_challenge"
+                },
+                {
+                  "key": "hub.verify_token",
+                  "value": "YOUR_VERIFY_TOKEN",
+                  "description": "Replace with your actual verify token"
+                }
+              ]
+            },
+            "description": "WhatsApp webhook verification endpoint"
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{baseUrl}}/meta/flow/webhook?hub.mode=subscribe&hub.challenge=test_challenge&hub.verify_token=YOUR_VERIFY_TOKEN"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "test_challenge"
+            }
+          ]
+        },
+        {
+          "name": "Flow Completion Webhook (POST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entry\": [\n    {\n      \"changes\": [\n        {\n          \"value\": {\n            \"messages\": [\n              {\n                \"from\": \"919876543210\",\n                \"type\": \"interactive\",\n                \"interactive\": {\n                  \"type\": \"nfm_reply\",\n                  \"nfm_reply\": {\n                    \"response_json\": \"{\\\"encrypted_flow_data\\\":\\\"ENCRYPTED_DATA_HERE\\\",\\\"encrypted_aes_key\\\":\\\"ENCRYPTED_KEY_HERE\\\",\\\"initial_vector\\\":\\\"IV_HERE\\\",\\\"flow_token\\\":\\\"TOKEN_HERE\\\"}\"\n                  }\n                }\n              }\n            ]\n          }\n        }\n      ]\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meta/flow/webhook",
+              "host": ["{{baseUrl}}"],
+              "path": ["meta", "flow", "webhook"]
+            },
+            "description": "NOTE: This endpoint requires encrypted data from WhatsApp. Test via Flow Builder instead."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Data Exchange (Direct - For Testing Only)",
+      "item": [
+        {
+          "name": "Data Exchange Endpoint",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"encrypted_flow_data\": \"ENCRYPTED_DATA_HERE\",\n  \"encrypted_aes_key\": \"ENCRYPTED_AES_KEY_HERE\",\n  \"initial_vector\": \"INITIAL_VECTOR_HERE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meta/flow/data-exchange",
+              "host": ["{{baseUrl}}"],
+              "path": ["meta", "flow", "data-exchange"]
+            },
+            "description": "NOTE: This endpoint requires encrypted data. Use Flow Builder for testing.\n\nDecrypted request format:\n{\n  \"version\": \"3.0\",\n  \"action\": \"data_exchange\",\n  \"screen\": \"APPOINTMENT_SELECTION\",\n  \"data\": {\n    \"doctor\": \"DOC001\",\n    \"location\": \"\",\n    \"date\": \"\",\n    \"time_slot\": \"\"\n  },\n  \"flow_token\": \"unique-token\"\n}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Testing Flow - Sample Requests",
+      "item": [
+        {
+          "name": "Test Scenario: Initial Load",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// This is a conceptual test",
+                  "// Actual testing must be done via Flow Builder",
+                  "",
+                  "// Expected decrypted response:",
+                  "// {",
+                  "//   \"version\": \"3.0\",",
+                  "//   \"screen\": \"APPOINTMENT_SELECTION\",",
+                  "//   \"data\": {",
+                  "//     \"doctors\": [",
+                  "//       {\"id\": \"DOC001\", \"title\": \"Dr. Sarah Johnson\", \"description\": \"Cardiologist\"},",
+                  "//       {\"id\": \"DOC002\", \"title\": \"Dr. Michael Chen\", \"description\": \"Pediatrician\"},",
+                  "//       ...",
+                  "//     ]",
+                  "//   }",
+                  "// }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "// This represents what the Flow sends on initial load\n// In reality, this would be encrypted\n\n// Decrypted format:\n{\n  \"version\": \"3.0\",\n  \"action\": \"data_exchange\",\n  \"screen\": \"APPOINTMENT_SELECTION\",\n  \"data\": {\n    \"doctor\": \"\",\n    \"location\": \"\",\n    \"date\": \"\",\n    \"time_slot\": \"\"\n  },\n  \"flow_token\": \"test-token-001\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meta/flow/data-exchange",
+              "host": ["{{baseUrl}}"],
+              "path": ["meta", "flow", "data-exchange"]
+            },
+            "description": "Conceptual request showing initial load when no doctor is selected"
+          }
+        },
+        {
+          "name": "Test Scenario: Doctor Selected",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "// Decrypted format when doctor is selected:\n{\n  \"version\": \"3.0\",\n  \"action\": \"data_exchange\",\n  \"screen\": \"APPOINTMENT_SELECTION\",\n  \"data\": {\n    \"doctor\": \"DOC001\",\n    \"location\": \"\",\n    \"date\": \"\",\n    \"time_slot\": \"\"\n  },\n  \"flow_token\": \"test-token-002\"\n}\n\n// Expected response includes:\n// - doctors list (to preserve selection)\n// - locations for DOC001",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meta/flow/data-exchange",
+              "host": ["{{baseUrl}}"],
+              "path": ["meta", "flow", "data-exchange"]
+            },
+            "description": "Conceptual request after doctor selection"
+          }
+        },
+        {
+          "name": "Test Scenario: Location Selected",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "// Decrypted format when location is selected:\n{\n  \"version\": \"3.0\",\n  \"action\": \"data_exchange\",\n  \"screen\": \"APPOINTMENT_SELECTION\",\n  \"data\": {\n    \"doctor\": \"DOC001\",\n    \"location\": \"LOC001\",\n    \"date\": \"\",\n    \"time_slot\": \"\"\n  },\n  \"flow_token\": \"test-token-003\"\n}\n\n// Expected response includes:\n// - doctors list\n// - locations list\n// - dates for next 14 days (excluding unavailable)",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meta/flow/data-exchange",
+              "host": ["{{baseUrl}}"],
+              "path": ["meta", "flow", "data-exchange"]
+            },
+            "description": "Conceptual request after location selection"
+          }
+        },
+        {
+          "name": "Test Scenario: Date Selected",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "// Decrypted format when date is selected:\n{\n  \"version\": \"3.0\",\n  \"action\": \"data_exchange\",\n  \"screen\": \"APPOINTMENT_SELECTION\",\n  \"data\": {\n    \"doctor\": \"DOC001\",\n    \"location\": \"LOC001\",\n    \"date\": \"2025-12-15\",\n    \"time_slot\": \"\"\n  },\n  \"flow_token\": \"test-token-004\"\n}\n\n// Expected response includes:\n// - doctors list\n// - locations list\n// - dates list\n// - time_slots for selected date (only available slots)",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meta/flow/data-exchange",
+              "host": ["{{baseUrl}}"],
+              "path": ["meta", "flow", "data-exchange"]
+            },
+            "description": "Conceptual request after date selection"
+          }
+        }
+      ]
+    }
+  ]
+}

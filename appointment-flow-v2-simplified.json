@@ -1,0 +1,295 @@
+{
+  "version": "7.2",
+  "data_api_version": "3.0",
+  "routing_model": {
+    "APPOINTMENT_SELECTION": [
+      "CONFIRMATION"
+    ],
+    "CONFIRMATION": [
+      "APPOINTMENT_SELECTION",
+      "SUCCESS"
+    ]
+  },
+  "screens": [
+    {
+      "id": "APPOINTMENT_SELECTION",
+      "title": "Book Appointment",
+      "terminal": false,
+      "data": {
+        "doctor": {
+          "type": "string",
+          "__example__": ""
+        },
+        "location": {
+          "type": "string",
+          "__example__": ""
+        },
+        "date": {
+          "type": "string",
+          "__example__": ""
+        },
+        "time_slot": {
+          "type": "string",
+          "__example__": ""
+        },
+        "doctors": {
+          "type": "array",
+          "__example__": [
+            {"id": "DOC001", "title": "Dr. Sarah Johnson", "description": "Cardiologist"}
+          ]
+        },
+        "locations": {
+          "type": "array",
+          "__example__": []
+        },
+        "dates": {
+          "type": "array",
+          "__example__": []
+        },
+        "time_slots": {
+          "type": "array",
+          "__example__": []
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "appointment_form",
+            "children": [
+              {
+                "type": "TextHeading",
+                "text": "Select Your Appointment Details"
+              },
+              {
+                "type": "TextBody",
+                "text": "Please choose your preferred doctor, location, date, and time slot."
+              },
+              {
+                "type": "Dropdown",
+                "name": "doctor",
+                "label": "Doctor *",
+                "required": true,
+                "data-source": "${data.doctors}",
+                "on-select-action": {
+                  "name": "data_exchange",
+                  "payload": {
+                    "doctor": "${form.doctor}",
+                    "location": "",
+                    "date": "",
+                    "time_slot": ""
+                  }
+                }
+              },
+              {
+                "type": "Dropdown",
+                "name": "location",
+                "label": "Location *",
+                "required": true,
+                "enabled": "${data.locations.length > 0}",
+                "data-source": "${data.locations}",
+                "on-select-action": {
+                  "name": "data_exchange",
+                  "payload": {
+                    "doctor": "${form.doctor}",
+                    "location": "${form.location}",
+                    "date": "",
+                    "time_slot": ""
+                  }
+                }
+              },
+              {
+                "type": "Dropdown",
+                "name": "date",
+                "label": "Date *",
+                "required": true,
+                "enabled": "${data.dates.length > 0}",
+                "data-source": "${data.dates}",
+                "on-select-action": {
+                  "name": "data_exchange",
+                  "payload": {
+                    "doctor": "${form.doctor}",
+                    "location": "${form.location}",
+                    "date": "${form.date}",
+                    "time_slot": ""
+                  }
+                }
+              },
+              {
+                "type": "Dropdown",
+                "name": "time_slot",
+                "label": "Time Slot *",
+                "required": true,
+                "enabled": "${data.time_slots.length > 0}",
+                "data-source": "${data.time_slots}"
+              },
+              {
+                "type": "Footer",
+                "label": "Continue",
+                "on-click-action": {
+                  "name": "navigate",
+                  "next": {
+                    "type": "screen",
+                    "name": "CONFIRMATION"
+                  },
+                  "payload": {
+                    "doctor": "${form.doctor}",
+                    "location": "${form.location}",
+                    "date": "${form.date}",
+                    "time_slot": "${form.time_slot}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "CONFIRMATION",
+      "title": "Confirm Appointment",
+      "terminal": false,
+      "data": {
+        "doctor": {
+          "type": "string",
+          "__example__": "DOC001"
+        },
+        "location": {
+          "type": "string",
+          "__example__": "LOC001"
+        },
+        "date": {
+          "type": "string",
+          "__example__": "2025-12-15"
+        },
+        "time_slot": {
+          "type": "string",
+          "__example__": "09:00"
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "confirmation_form",
+            "children": [
+              {
+                "type": "TextHeading",
+                "text": "Review Your Appointment"
+              },
+              {
+                "type": "TextBody",
+                "text": "Please review your appointment details before confirming."
+              },
+              {
+                "type": "TextSubheading",
+                "text": "Doctor ID"
+              },
+              {
+                "type": "TextBody",
+                "text": "${data.doctor}"
+              },
+              {
+                "type": "TextSubheading",
+                "text": "Location ID"
+              },
+              {
+                "type": "TextBody",
+                "text": "${data.location}"
+              },
+              {
+                "type": "TextSubheading",
+                "text": "Date"
+              },
+              {
+                "type": "TextBody",
+                "text": "${data.date}"
+              },
+              {
+                "type": "TextSubheading",
+                "text": "Time Slot"
+              },
+              {
+                "type": "TextBody",
+                "text": "${data.time_slot}"
+              },
+              {
+                "type": "Footer",
+                "label": "Confirm Booking",
+                "on-click-action": {
+                  "name": "complete",
+                  "payload": {
+                    "doctor": "${data.doctor}",
+                    "location": "${data.location}",
+                    "date": "${data.date}",
+                    "time_slot": "${data.time_slot}"
+                  }
+                }
+              },
+              {
+                "type": "Footer",
+                "label": "Edit Details",
+                "on-click-action": {
+                  "name": "navigate",
+                  "next": {
+                    "type": "screen",
+                    "name": "APPOINTMENT_SELECTION"
+                  },
+                  "payload": {
+                    "doctor": "${data.doctor}",
+                    "location": "${data.location}",
+                    "date": "${data.date}",
+                    "time_slot": "${data.time_slot}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "SUCCESS",
+      "title": "Booking Confirmed",
+      "terminal": true,
+      "success": true,
+      "data": {
+        "appointment_id": {
+          "type": "string",
+          "__example__": "APT-1234567890-123"
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "✅ Appointment Confirmed!"
+          },
+          {
+            "type": "TextBody",
+            "text": "Your appointment has been successfully booked."
+          },
+          {
+            "type": "TextSubheading",
+            "text": "Booking ID"
+          },
+          {
+            "type": "TextBody",
+            "text": "${data.appointment_id}"
+          },
+          {
+            "type": "Footer",
+            "label": "Done",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {}
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

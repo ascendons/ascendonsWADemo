@@ -1,0 +1,86 @@
+{
+  "version": "3.0",
+  "screens": [
+    {
+      "id": "PATIENT_REG_SCREEN",
+      "title": "Patient Registration",
+      "terminal": true,
+      "data": {},
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Form",
+            "name": "patient_registration_form",
+            "children": [
+              {
+                "type": "TextHeading",
+                "text": "Patient Information"
+              },
+              {
+                "type": "TextSubheading",
+                "text": "Please provide your details to register"
+              },
+              {
+                "type": "TextInput",
+                "name": "name",
+                "label": "Full Name",
+                "required": true,
+                "input-type": "text",
+                "helper-text": "Enter your full legal name"
+              },
+              {
+                "type": "TextInput",
+                "name": "age",
+                "label": "Age",
+                "required": true,
+                "input-type": "number",
+                "helper-text": "Enter your age in years"
+              },
+              {
+                "type": "RadioButtonsGroup",
+                "name": "gender",
+                "label": "Gender",
+                "required": true,
+                "data-source": [
+                  {
+                    "id": "male",
+                    "title": "Male"
+                  },
+                  {
+                    "id": "female",
+                    "title": "Female"
+                  },
+                  {
+                    "id": "other",
+                    "title": "Other"
+                  }
+                ]
+              },
+              {
+                "type": "TextArea",
+                "name": "symptoms",
+                "label": "Current Symptoms (Optional)",
+                "required": false,
+                "helper-text": "Briefly describe your symptoms"
+              },
+              {
+                "type": "Footer",
+                "label": "Continue",
+                "on-click-action": {
+                  "name": "complete",
+                  "payload": {
+                    "name": "${form.name}",
+                    "age": "${form.age}",
+                    "gender": "${form.gender}",
+                    "symptoms": "${form.symptoms}"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+doctor:
+  id: vijay-kr-rao
+  name: Dr. Vijay K R Rao
+
+weekly_templates:
+  - clinic: Divisha Arthritis and Medical Center
+    address: 500/A 1st G Cross, 3rd Block, 4th Stage, Basaveshwara Nagar, Bengaluru 560079
+    google_maps: https://share.google/l9CY32MQWsWGlKP9y
+    days:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+    start_time: "10:00"
+    end_time: "18:00"
+    repeat_interval_weeks: 1
+    notes: "Closed on Sundays"
+
+  - clinic: Agilus Diagnostics (Whitefield)
+    address: 1st Floor, Srinarayani Arcade, 7/3 Main Road, above Bata Showroom, Lakshminarayana Pura, Kundalahalli, Brookefield, Bengaluru 560037
+    google_maps: https://share.google/zJKrsofieKh56F3Ag
+    days:
+      - SUNDAY
+    start_time: "10:00"
+    end_time: "18:00"
+    repeat_interval_weeks: 2
+    week_parity: ODD
+    notes: "Consultation on alternate Sundays only"
+
+  - clinic: Agilus Diagnostics Ltd (Basavanagudi)
+    address: No 49/2, Nittoor Square, S Kariappa Road, Basavanagudi, Bengaluru 560004
+    google_maps: null
+    days:
+      - WEDNESDAY
+    start_time: "10:00"
+    end_time: "18:00"
+    repeat_interval_weeks: 2
+    week_parity: EVEN
+    notes: "Consultation on alternate Wednesdays only"

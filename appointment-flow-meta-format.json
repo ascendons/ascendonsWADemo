@@ -1,0 +1,342 @@
+{
+    "version": "7.2",
+    "data_api_version": "3.0",
+    "routing_model": {
+        "APPOINTMENT": [
+            "CONFIRMATION"
+        ],
+        "CONFIRMATION": [
+            "SUCCESS"
+        ],
+        "SUCCESS": []
+    },
+    "screens": [
+        {
+            "id": "APPOINTMENT",
+            "title": "Book Appointment",
+            "data": {
+                "doctors": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "__example__": [
+                        {
+                            "id": "DOC001",
+                            "title": "Dr. Sarah Johnson",
+                            "description": "Cardiologist"
+                        },
+                        {
+                            "id": "DOC002",
+                            "title": "Dr. Michael Chen",
+                            "description": "Pediatrician"
+                        }
+                    ]
+                },
+                "locations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "__example__": [
+                        {
+                            "id": "LOC001",
+                            "title": "Downtown Medical Center",
+                            "description": "123 Main Street"
+                        }
+                    ]
+                },
+                "is_location_enabled": {
+                    "type": "boolean",
+                    "__example__": false
+                },
+                "dates": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "title": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "__example__": [
+                        {
+                            "id": "2025-12-15",
+                            "title": "Mon, Dec 15, 2025"
+                        }
+                    ]
+                },
+                "is_date_enabled": {
+                    "type": "boolean",
+                    "__example__": false
+                },
+                "time_slots": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "__example__": [
+                        {
+                            "id": "09:00",
+                            "title": "09:00 AM",
+                            "description": "Available"
+                        }
+                    ]
+                },
+                "is_time_enabled": {
+                    "type": "boolean",
+                    "__example__": false
+                },
+                "patient_id": {
+                    "type": "string",
+                    "__example__": "PAT001"
+                },
+                "phone_number": {
+                    "type": "string",
+                    "__example__": "1234567890"
+                }
+            },
+            "layout": {
+                "type": "SingleColumnLayout",
+                "children": [
+                    {
+                        "type": "Form",
+                        "name": "appointment_form",
+                        "children": [
+                            {
+                                "type": "TextHeading",
+                                "text": "Book Your Appointment"
+                            },
+                            {
+                                "type": "TextBody",
+                                "text": "Select your preferred doctor, location, date and time"
+                            },
+                            {
+                                "type": "Dropdown",
+                                "label": "Doctor",
+                                "name": "doctor",
+                                "data-source": "${data.doctors}",
+                                "required": true,
+                                "on-select-action": {
+                                    "name": "data_exchange",
+                                    "payload": {
+                                        "trigger": "doctor_selected",
+                                        "doctor": "${form.doctor}"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "Dropdown",
+                                "label": "Location",
+                                "name": "location",
+                                "data-source": "${data.locations}",
+                                "required": "${data.is_location_enabled}",
+                                "enabled": "${data.is_location_enabled}",
+                                "on-select-action": {
+                                    "name": "data_exchange",
+                                    "payload": {
+                                        "trigger": "location_selected",
+                                        "doctor": "${form.doctor}",
+                                        "location": "${form.location}"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "Dropdown",
+                                "label": "Date",
+                                "name": "date",
+                                "data-source": "${data.dates}",
+                                "required": "${data.is_date_enabled}",
+                                "enabled": "${data.is_date_enabled}",
+                                "on-select-action": {
+                                    "name": "data_exchange",
+                                    "payload": {
+                                        "trigger": "date_selected",
+                                        "doctor": "${form.doctor}",
+                                        "location": "${form.location}",
+                                        "date": "${form.date}"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "Dropdown",
+                                "label": "Time Slot",
+                                "name": "time_slot",
+                                "data-source": "${data.time_slots}",
+                                "required": "${data.is_time_enabled}",
+                                "enabled": "${data.is_time_enabled}"
+                            },
+                            {
+                                "type": "Footer",
+                                "label": "Continue",
+                                "on-click-action": {
+                                    "name": "data_exchange",
+                                    "payload": {
+                                        "trigger": "prepare_confirmation",
+                                        "doctor": "${form.doctor}",
+                                        "location": "${form.location}",
+                                        "date": "${form.date}",
+                                        "time_slot": "${form.time_slot}",
+                                        "patient_id": "${data.patient_id}",
+                                        "phone_number": "${data.phone_number}"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "CONFIRMATION",
+            "title": "Confirm Appointment",
+            "data": {
+                "appointment_summary": {
+                    "type": "string",
+                    "__example__": "Dr. Sarah Johnson - Cardiologist\nDowntown Medical Center\nMon, Dec 15, 2025 at 09:00 AM"
+                },
+                "doctor": {
+                    "type": "string",
+                    "__example__": "DOC001"
+                },
+                "location": {
+                    "type": "string",
+                    "__example__": "LOC001"
+                },
+                "date": {
+                    "type": "string",
+                    "__example__": "2025-12-15"
+                },
+                "time_slot": {
+                    "type": "string",
+                    "__example__": "09:00"
+                },
+                "patient_id": {
+                    "type": "string",
+                    "__example__": "PAT001"
+                },
+                "phone_number": {
+                    "type": "string",
+                    "__example__": "1234567890"
+                },
+                "booking_id": {
+                    "type": "string",
+                    "__example__": "APT-1734567890-123"
+                },
+                "patient_name": {
+                    "type": "string",
+                    "__example__": "John Doe"
+                }
+            },
+            "layout": {
+                "type": "SingleColumnLayout",
+                "children": [
+                    {
+                        "type": "Form",
+                        "name": "confirmation_form",
+                        "children": [
+                            {
+                                "type": "TextHeading",
+                                "text": "Review Your Appointment"
+                            },
+                            {
+                                "type": "TextBody",
+                                "text": "${data.appointment_summary}"
+                            },
+                            {
+                                "type": "TextBody",
+                                "text": "Please confirm your appointment details above."
+                            },
+                            {
+                                "type": "Footer",
+                                "label": "Confirm Booking",
+                                "on-click-action": {
+                                    "name": "data_exchange",
+                                    "payload": {
+                                        "trigger": "confirm_booking",
+                                        "doctor": "${data.doctor}",
+                                        "location": "${data.location}",
+                                        "date": "${data.date}",
+                                        "time_slot": "${data.time_slot}",
+                                        "patient_id": "${data.patient_id}",
+                                        "phone_number": "${data.phone_number}",
+                                        "booking_id": "${data.booking_id}"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "SUCCESS",
+            "title": "Booking Confirmed",
+            "terminal": true,
+            "data": {
+                "booking_id": {
+                    "type": "string",
+                    "__example__": "APT-1234567890-123"
+                },
+                "confirmation_message": {
+                    "type": "string",
+                    "__example__": "Your appointment has been confirmed!\n\nBooking ID: APT-1234567890-123\nDoctor: Dr. Sarah Johnson\nLocation: Downtown Medical Center\nDate: Mon, Dec 15, 2025\nTime: 09:00 AM\n\nWe look forward to seeing you!"
+                }
+            },
+            "layout": {
+                "type": "SingleColumnLayout",
+                "children": [
+                    {
+                        "type": "TextHeading",
+                        "text": "✅ Appointment Confirmed!"
+                    },
+                    {
+                        "type": "TextBody",
+                        "text": "${data.confirmation_message}"
+                    },
+                    {
+                        "type": "TextCaption",
+                        "text": "You will receive a confirmation message shortly."
+                    }
+                ]
+            }
+        }
+    ]
+}
