@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: divisha-whatsapp-bot
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SERVER_PORT
+        value: 8080
